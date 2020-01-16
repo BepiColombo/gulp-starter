@@ -82,15 +82,21 @@ gulp.task("buildJs", cb => {
 
 const sassStyle = () => {
   return gulp
-    .src(["./css/*.sass", "!./css/_*.sass"])
+    .src(config.dev.sass)
     .pipe(sass())
     .pipe(
       autoprefix({
-        browsers: ["last 2 versions"]
+        overrideBrowserslist: [
+          "Android 4.1",
+          "iOS 7.1",
+          "Chrome > 31",
+          "ff > 31",
+          "ie >= 8"
+        ]
       })
     )
     .pipe(cleanCSS()) //css压缩
-    .pipe(gulp.dest("./dist/css/"))
+    .pipe(gulp.dest(config.build.css))
     .pipe(
       reload({
         stream: true

@@ -19,7 +19,8 @@ module.exports = {
     static: "static/**/*",
     html: resolveDev("pages/*.html"),
     allhtml: resolveDev("/**/*.html"),
-    css: resolveDev("styles/**/*.{scss,css}"),
+    css: resolveDev("styles/**/*.css"),
+    sass: resolveDev("styles/**/*.scss"),
     script: resolveDev("js/**/*.js"),
     images: resolveDev("static/images/**/*.{png,jpg,gif,svg}")
   },
