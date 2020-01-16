@@ -13,13 +13,26 @@ const uglify = require("gulp-uglify");
 
 const config = require("./config");
 
-gulp.task("browserSync", cb => {
-  browserSync({
-    server: {
-      baseDir: ["./dist/"]
-    },
-    port: 3000
+/**
+ * 第三方依赖文件  在node_modules下的依赖
+ */
+gulp.task("thirdParty", done => {
+  const assets = {
+    js: [config.dev.node_modules("echarts/dist/echarts.min.js")]
+    // css: [config.dev.node_modules("xxx/dist/xxx.min.css")],
+    // fonts: [config.dev.node_modules("xxx/.css")]
+  };
+  Object.keys(assets).map(key => {
+    const dest =
+      key === "js"
+        ? config.build.script_vendors
+        : key === "css"
+        ? config.build.css_vendors
+        : config.build.static + key;
+    // console.log(assets[key], dest);
+    gulp.src(assets[key]).pipe(gulp.dest(dest));
   });
+  done();
 });
 
 /**
@@ -42,7 +55,6 @@ gulp.task("js", cb => {
           stream: true
         })
       )
-    // .pipe(notify({ message: "js task ok" }))
   );
 });
 
@@ -66,7 +78,6 @@ gulp.task("buildJs", cb => {
         stream: true
       })
     );
-  // .pipe(notify({ message: "build js task ok" }));
 });
 
 const sassStyle = () => {
@@ -85,7 +96,6 @@ const sassStyle = () => {
         stream: true
       })
     );
-  // .pipe(notify({ message: "sassStyle task ok" }));
 };
 const cssStyle = () => {
   return gulp
@@ -97,13 +107,12 @@ const cssStyle = () => {
         stream: true
       })
     );
-  // .pipe(notify({ message: "cssStyle task ok" }));
 };
 gulp.task("sass", gulp.series(cssStyle, sassStyle));
 
 gulp.task("html", () => {
   return gulp
-    .src(config.dev.html)
+    .src([config.dev.html, config.dev.static + ".ico*"])
     .pipe(
       fileinclude({
         prefix: "@@",
@@ -117,7 +126,6 @@ gulp.task("html", () => {
         stream: true
       })
     );
-  // .pipe(notify({ message: "html task ok" }));
 });
 gulp.task("img", () => {
   return gulp
@@ -129,7 +137,6 @@ gulp.task("img", () => {
         stream: true
       })
     );
-  // .pipe(notify({ message: "image task ok" }));
 });
 
 gulp.task("watch", cb => {
@@ -148,9 +155,31 @@ gulp.task("clean", cb => {
   return del(["dist/css/", "dist/js/", "dist/page/*.html", "dist/static"]);
 });
 
-gulp.task("build", gulp.series("clean", "html", "sass", "buildJs", "img"));
+gulp.task(
+  "build",
+  gulp.series("clean", "html", "sass", "thirdParty", "buildJs", "img")
+);
+
+gulp.task("browserSync", cb => {
+  browserSync({
+    server: {
+      baseDir: ["./dist/"],
+      middleware: config.proxyMiddleware
+    },
+    port: 3000
+  });
+});
 
 gulp.task(
   "default",
-  gulp.series("clean", "sass", "js", "img", "html", "watch", "browserSync")
+  gulp.series(
+    "clean",
+    "sass",
+    "thirdParty",
+    "js",
+    "img",
+    "html",
+    "watch",
+    "browserSync"
+  )
 );

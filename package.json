@@ -1,7 +1,7 @@
 {
   "name": "gulp-webfrom-starter",
   "version": "1.0.0",
-  "description": "a gulp template for multiple-page application",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,6 @@
     "gulp"
   ],
   "author": "Jarvis Guo",
-  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
@@ -25,6 +24,10 @@
     "gulp-imagemin": "^6.2.0",
     "gulp-notify": "^3.2.0",
     "gulp-sass": "^4.0.2",
-    "gulp-uglify": "^3.0.2"
+    "gulp-uglify": "^3.0.2",
+    "http-proxy-middleware": "^0.20.0"
+  },
+  "dependencies": {
+    "echarts": "^4.6.0"
   }
 }

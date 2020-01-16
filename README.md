@@ -1,15 +1,38 @@
-# gulp 4 前后端不分离模板
+# gulp 4 多页面开发模板
 
-## 基于 gulp 4, 主要功能包括: 
-### (强调是gulp 4.x版本  3.x版本不兼容！！)
+## 基于 gulp 4, 主要功能包括:
 
-1. sass: sass 转 css, autoprefix
-2. html 处理: gulp-file-include 模板, 对应后端 jsp 的`include`语法
-3. img 压缩
-4. 热启动
-5. js 语法检查
-6. 引入 es6
+### (强调是 gulp 4.x 版本 ，3.x 版本不兼容！！)
 
 ## 运行
+
 命令行运行`gulp`
 
+```
+├── /dist/
+│  ├── *.html
+│  ├── index.html
+│  ├── /js/
+│  │  └── *.js
+│  ├── /static/
+│  │  ├── /images/
+│  │  │  └── bg.jpg
+│  ├── /styles/
+│  │  ├── index.css
+│  │  └── *.scss
+├── /src/
+│  ├── /js/
+│  │  └── *.js
+│  ├── /pages/
+│  │  ├── *.html
+│  │  └── index.html
+│  ├── /static/
+│  │  ├── /images/
+│  │  │  └── bg.jpg
+│  ├── /styles/
+│  │  ├── index.css
+│  │  └── *.scss
+│  │── /template/
+│     └── *.html
+├── config.js
+├── gulpfile.js
